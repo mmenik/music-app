@@ -1,2 +1,2 @@
 # music-app
-Store djs release
+Store djs release to beatport
