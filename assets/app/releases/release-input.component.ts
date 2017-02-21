@@ -14,7 +14,11 @@ export class ReleaseInputComponent {
 
     onSubmit(form: NgForm) {        
         const release = new Release(form.value.title, 'CAT', 'LAB');
-        this.releaseService.addRelease(release);
+        this.releaseService.addRelease(release)
+        .subscribe(
+            data => console.log(data),
+            error=>console.log(error)            
+        );
         form.resetForm();
     }
 }
