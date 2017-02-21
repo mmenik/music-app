@@ -1,0 +1,3 @@
+<div class="col-md-8 col-md-offset-2">
+    <app-release [release]="release" (editClicked)="release.title=$event" *ngFor="let release of releases"></app-release>
+</div>

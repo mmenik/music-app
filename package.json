@@ -1,0 +1,45 @@
+{
+  "name": "angular2-nodejs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "build": "del-cli public/js/app && webpack --config webpack.config.dev.js --progress --profile --watch",
+    "build:prod": "del-cli public/js/app && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli public/js/app/**/*.js public/js/app/**/*.js.map !public/js/app/bundle.js !public/js/app/*.chunk.js assets/app/**/*.ngfactory.ts assets/app/**/*.shim.ts"
+  },
+  "dependencies": {
+    "@angular/common": "~2.4.8",
+    "@angular/compiler": "~2.4.8",
+    "@angular/compiler-cli": "~2.4.8",
+    "@angular/core": "~2.4.8",
+    "@angular/forms": "~2.4.8",
+    "@angular/http": "~2.4.8",
+    "@angular/platform-browser": "~2.4.8",
+    "@angular/platform-browser-dynamic": "~2.4.8",
+    "body-parser": "~1.16.1",
+    "cookie-parser": "~1.4.3",
+    "core-js": "~2.4.1",
+    "debug": "~2.6.1",
+    "express": "~4.14.1",
+    "hbs": "~4.0.1",
+    "mongoose": "^4.8.4",
+    "mongoose-unique-validator": "^1.0.3",
+    "morgan": "~1.8.1",
+    "rxjs": "~5.2.0",
+    "serve-favicon": "~2.4.0",
+    "zone.js": "~0.7.7"
+  },
+  "devDependencies": {
+    "@types/core-js": "~0.9.35",
+    "@types/node": "~7.0.5",
+    "angular2-router-loader": "~0.3.5",
+    "angular2-template-loader": "~0.6.2",
+    "awesome-typescript-loader": "~3.0.4",
+    "del-cli": "~0.2.1",
+    "html-loader": "~0.4.4",
+    "raw-loader": "~0.5.1",
+    "typescript": "~2.1.6",
+    "webpack": "^2.2.1",
+    "webpack-merge": "~3.0.0"
+  }
+}
