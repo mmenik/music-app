@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Release } from './release.model';
 import { ReleaseService } from './release.service';
 
@@ -8,19 +8,16 @@ import { ReleaseService } from './release.service';
     styleUrls: ['./release.component.css']
 })
 export class ReleaseComponent {
-    @Input()
-    release: Release;
+    @Input() release: Release;
 
-    @Output()
-    editClicked = new EventEmitter<string>();
-
-constructor(private releaseService:ReleaseService){}
+    constructor(private releaseService: ReleaseService) { }
 
     onEdit() {
-        this.editClicked.emit('New title');
+        this.releaseService.editRelease(this.release);
     }
 
-    onDelete(){
-this.releaseService.deleteRelease(this.release);
+    onDelete() {
+        this.releaseService.deleteRelease(this.release)
+            .subscribe(result => console.log(result));
     }
 }

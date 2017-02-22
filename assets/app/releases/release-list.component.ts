@@ -5,7 +5,7 @@ import { ReleaseService } from './release.service';
 
 @Component({
     selector: 'app-release-list',
-    templateUrl: './release-list.component.html'    
+    templateUrl: './release-list.component.html'
 })
 export class ReleaseListComponent implements OnInit {
 
@@ -14,6 +14,10 @@ export class ReleaseListComponent implements OnInit {
     releases: Release[];
 
     ngOnInit() {
-        this.releases = this.releaseService.getReleases();
+        this.releaseService.getReleases()
+            .subscribe(
+            (releases: Release[]) => {
+                this.releases = releases;
+            });
     }
 }

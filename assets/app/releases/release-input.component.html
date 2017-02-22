@@ -1,15 +1,20 @@
 <div class="col-md-8 col-md-offset-2">
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input 
-                type="text" 
-                id="title" 
-                class="form-control"
-                ngModel
-                name="title"
-                required>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" class="form-control" [ngModel]="release?.title" name="title" required placeholder="Title">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-gourp">
+                    <label for="title">Catalog</label>
+                    <input type="text" id="catalog" class="form-control" [ngModel]="release?.catalog" name="catalog" required placeholder="Catalog">
+                </div>
+            </div>
         </div>
+        <button type="button" class="btn btn-danger" (click)="onClear(f)">Clear</button>
         <button class="btn btn-primary" type="submit">Save</button>
     </form>
 </div>

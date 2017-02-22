@@ -1,22 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-label',
-    templateUrl: './labels.component.html',
-    styleUrls: ['./labels.component.css']
+    selector:'app-labels',
+    templateUrl:'./labels.component.html'  
 })
-export class LabelsComponent implements OnInit {
-    myForm: FormGroup;
+export class LabelsComponent{
 
-    onSubmit() {
-        console.log(this.myForm);
-        this.myForm.reset();
-    }
-
-    ngOnInit() {
-        this.myForm = new FormGroup({
-            name: new FormControl(null, Validators.required)
-        });
-    }
 }
