@@ -13,13 +13,15 @@ export class ReleaseService {
     constructor(private http: Http) { }
 
     addRelease(release: Release) {
+        console.log(release);
         const body = JSON.stringify(release);
+        console.log(body);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         
         return this.http.post('http://localhost:3000/release', body, { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
-                const release = new Release(result.obj.title, result.obj.catalog, 'LAB', result.obj._id);
+                const release = new Release(result.obj.title, result.obj.catalog,result.obj.label.name, result.obj.label._id, result.obj._id);
                 this.releases.push(release);
                 return release;
             })
@@ -32,7 +34,7 @@ export class ReleaseService {
                 const releases = response.json().obj;
                 let transformedReleases: Release[] = [];
                 for (let release of releases) {
-                    transformedReleases.push(new Release(release.title, release.catalog, 'LAB', release._id));
+                    transformedReleases.push(new Release(release.title, release.catalog,release.label.name, release.label._id, release._id));
                 }
                 this.releases = transformedReleases;
                 return transformedReleases;
@@ -46,8 +48,7 @@ export class ReleaseService {
 
     updateRelease(release: Release) {
         const body = JSON.stringify(release);
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log('http://localhost:3000/release/' + release.releaseId);
+        const headers = new Headers({ 'Content-Type': 'application/json' });        
         return this.http.patch('http://localhost:3000/release/' + release.releaseId, body, { headers: headers })
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));

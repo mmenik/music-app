@@ -45,7 +45,11 @@ labelIsEdit=new EventEmitter<Label>();
     }
 
     updateLabel(label: Label) {
-        console.log("updateLabel");
+       const body = JSON.stringify(label);
+        const headers = new Headers({ 'Content-Type': 'application/json' });        
+        return this.http.patch('http://localhost:3000/label/' + label.labelId, body, { headers: headers })
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()));
     }
 
     deleteLabel(label: Label) {

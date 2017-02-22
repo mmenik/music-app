@@ -1,3 +1,3 @@
 export class Release {
-    constructor(public title: string, public catalog: string, public label: string, public releaseId?: string) { }
+    constructor(public title: string, public catalog: string, public labelName:string, public labelId?: string, public releaseId?: string) { }
 }

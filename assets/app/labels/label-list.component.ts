@@ -17,7 +17,7 @@ export class LabelListComponent implements OnInit {
         this.labelService.getLabels()
             .subscribe(
             (labels: Label[]) => {
-                this.labels = labels;
-            });
+                this.labels = labels;                
+            });                        
     }
 }

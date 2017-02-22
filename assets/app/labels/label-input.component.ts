@@ -9,22 +9,30 @@ import { LabelService } from './label.service';
     templateUrl: './label-input.component.html'
 })
 export class LabelInputComponent implements OnInit {
+    label: Label;
     form: FormGroup;
 
     constructor(private labelService: LabelService, private fb: FormBuilder) { }
 
     onSubmit() {
-        console.log(this.form);
-        const label = new Label(this.form.value.name);
-        this.labelService.addLabel(label)
-            .subscribe(
-            data => console.log(data),
-            error => console.log(error)
-            );
+        if (this.label) {
+            this.label.name = this.form.value.name;
+            this.labelService.updateLabel(this.label)
+                .subscribe(result => console.log(result));
+            this.label = null;
+        } else {
+            const label = new Label(this.form.value.name);
+            this.labelService.addLabel(label)
+                .subscribe(
+                data => console.log(data),
+                error => console.log(error)
+                );
+        }
         this.form.reset();
     }
 
     onClear() {
+        this.label = null;
         this.form.reset();
     }
 
@@ -38,10 +46,8 @@ export class LabelInputComponent implements OnInit {
 
         this.labelService.labelIsEdit.subscribe(
             (label: Label) => {
-                this.form.patchValue({ name: label.name, id:label.labelId });
-                console.log(this.form);
-                console.log("OnInit")
-                console.log(label);
+                this.label = label;
+                this.form.patchValue({ name: label.name });
             }
         );
     }
