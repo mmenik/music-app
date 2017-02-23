@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Label =require('../modules/label');
+var Label = require('../modules/label');
 var Release = require('../modules/release');
 
 router.get('/', function (req, res, next) {
@@ -21,14 +21,19 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
+    console.log("POST");
     console.log(req.body);
-    Label.findById(req.body.labelId, function (err, label) {
+    console.log(req.body.label);
+    console.log(req.body.label.labelId);
+    Label.findById(req.body.label.labelId, function (err, label) {
         if (err) {
             return res.status(500).json({
                 title: 'An error occurred',
                 error: err
             });
         }
+        console.log("NOTERROR");
+        console.log(label);
         var release = new Release({
             title: req.body.title,
             catalog: req.body.catalog,
@@ -40,7 +45,7 @@ router.post('/', function (req, res, next) {
                     title: 'An error occurred',
                     error: err
                 });
-            }            
+            }
             label.releases.push(result);
             label.save();
             res.status(201).json({
@@ -49,10 +54,11 @@ router.post('/', function (req, res, next) {
             });
         });
     })
-
 });
 
 router.patch('/:id', function (req, res, next) {
+    console.log("PATCH");
+    console.log(req.body);
     Release.findById(req.params.id, function (err, release) {
         if (err) {
             return res.status(500).json({
@@ -66,8 +72,48 @@ router.patch('/:id', function (req, res, next) {
                 error: { message: 'Release not found' }
             });
         }
+        if (release.label != req.body.labelId) {
+            Label.findById(release.label, function (err, label) {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'An error occurred',
+                        error: err
+                    });
+                }
+                label.releases.pull(release);
+                label.save(function (err, result) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'An error occurred',
+                            error: err
+                        });
+                    }
+                });
+            });
+            Label.findById(req.body.labelId, function (err, label) {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'An error occurred',
+                        error: err
+                    });
+                }
+                label.releases.push(release);
+                label.save(function (err, result) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'An error occurred',
+                            error: err
+                        });
+                    }
+                });
+            });
+
+            release.label = req.body.labelId;
+        } 
+
         release.title = req.body.title;
         release.catalog = req.body.catalog;
+
         release.save(function (err, result) {
             if (err) {
                 return res.status(500).json({
@@ -82,7 +128,6 @@ router.patch('/:id', function (req, res, next) {
         });
     });
 });
-
 
 router.delete('/:id', function (req, res, next) {
     Release.findById(req.params.id, function (err, release) {

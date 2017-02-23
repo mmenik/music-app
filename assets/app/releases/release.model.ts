@@ -1,3 +1,5 @@
+import { Label } from '../labels/label.model';
+
 export class Release {
-    constructor(public title: string, public catalog: string, public labelName:string, public labelId?: string, public releaseId?: string) { }
+    constructor(public title: string, public catalog: string, public label: Label, public releaseId?: string) { }
 }

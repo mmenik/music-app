@@ -16,10 +16,10 @@ export class LabelInputComponent implements OnInit {
 
     onSubmit() {
         if (this.label) {
-            this.label.name = this.form.value.name;
+            this.label.name =this.form.value.name;            
             this.labelService.updateLabel(this.label)
-                .subscribe(result => console.log(result));
-            this.label = null;
+                .subscribe(result => console.log(result));                
+            this.label = null;            
         } else {
             const label = new Label(this.form.value.name);
             this.labelService.addLabel(label)
@@ -46,8 +46,8 @@ export class LabelInputComponent implements OnInit {
 
         this.labelService.labelIsEdit.subscribe(
             (label: Label) => {
-                this.label = label;
-                this.form.patchValue({ name: label.name });
+                this.label = label;    
+                this.form.patchValue({ name: this.label.name });                              
             }
         );
     }

@@ -10,8 +10,8 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="label">Label</label>
-                    <select class="form-control" [ngModel]="release?.labelId" name="label" id="label">
-                        <option *ngFor="let label of labels" [value]="label.labelId">{{label.name}}</option>
+                    <select class="form-control" [(ngModel)]="release.label" (ngModelChange)="release.label = $event ? $event : null" name="label" id="label">
+                        <option *ngFor="let l of labels" [ngValue]="l">{{label.name}}</option>
                     </select>
                 </div>
             </div>
