@@ -2,9 +2,23 @@
     <div class="panel-body">
         {{label.name}}
     </div>
-    <footer class="panel-footer">        
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Catalog</th>
+            </tr>          
+        </thead>
+          <tbody>
+                <tr *ngFor="let release of label.releases">
+                    <td>{{release.title}}</td>
+                    <td>{{release.catalog}}</td>
+                </tr>
+          </tbody>
+    </table>
+    <footer class="panel-footer">
         <div class="config">
-            <a  (click)="onEdit()">Edit</a>
+            <a (click)="onEdit()">Edit</a>
             <a (click)="onDelete()">Delete</a>
         </div>
     </footer>

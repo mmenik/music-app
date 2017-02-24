@@ -4,13 +4,15 @@ var router = express.Router();
 var Label = require('../modules/label');
 
 router.get('/', function (req, res, next) {
-    Label.find().exec(function (err, labels) {
+    Label.find().populate('releases').exec(function (err, labels) {
         if (err) {
             return res.status(500).json({
                 title: 'An error occurred',
                 error: err
             });
         }
+        console.log("SERVER LABELS");
+        console.log(labels);
         res.status(200).json({
             message: 'Get Labels',
             obj: labels

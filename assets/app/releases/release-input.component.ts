@@ -13,7 +13,7 @@ import { LabelService } from '../labels/label.service';
 export class ReleaseInputComponent implements OnInit {
     release: Release;
     labels: Label[];
-    selectedLabel: Label;
+    public selectedLabel: Label;
 
     constructor(private releaseService: ReleaseService, private labelService: LabelService) { }
 
@@ -26,15 +26,9 @@ export class ReleaseInputComponent implements OnInit {
                 .subscribe(result => console.log(result));
             this.release = null;
         } else {
-            console.log("STEP1");
-            console.log(form.value.label);
             const release = new Release(form.value.title, form.value.catalog, form.value.label);
-            console.log("STEP2");
-            console.log(release.label);
             this.releaseService.addRelease(release)
                 .subscribe(
-                data => console.log(data),
-                error => console.log(error)
                 );
         }
         form.resetForm();
@@ -42,7 +36,7 @@ export class ReleaseInputComponent implements OnInit {
 
     onClear(form: NgForm) {
         this.release = null;
-        form.resetForm();
+        form.resetForm();        
     }
 
     ngOnInit() {
@@ -55,8 +49,7 @@ export class ReleaseInputComponent implements OnInit {
         this.releaseService.releaseIsEdit.subscribe(
             (release: Release) => {
                 this.release = release;
-                console.log("EDIT");
-                console.log(release);
+                this.selectedLabel = this.labels.find(label => label.labelId === this.release.label.labelId);
             }
         );
     }

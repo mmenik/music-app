@@ -3,6 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/Rx'
 
+import { Label } from '../labels/label.model';
 import { Release } from './release.model';
 
 @Injectable()
@@ -14,16 +15,12 @@ export class ReleaseService {
 
     addRelease(release: Release) {
         const body = JSON.stringify(release);
-
-        console.log("BODY");
-        console.log(body);
-
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post('http://localhost:3000/release', body, { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
-                const release = new Release(result.obj.title, result.obj.catalog, result.obj.label, result.obj._id);
+                const release = new Release(result.obj.title, result.obj.catalog, new Label( result.obj.label.name,result.obj.label._id), result.obj._id);
                 this.releases.push(release);
                 return release;
             })
@@ -36,7 +33,7 @@ export class ReleaseService {
                 const releases = response.json().obj;
                 let transformedReleases: Release[] = [];
                 for (let release of releases) {
-                    transformedReleases.push(new Release(release.title, release.catalog, release.label, release._id));
+                    transformedReleases.push(new Release(release.title, release.catalog, new Label( release.label.name,release.label._id), release._id));
                 }
                 this.releases = transformedReleases;
                 return transformedReleases;

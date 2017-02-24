@@ -21,10 +21,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    console.log("POST");
-    console.log(req.body);
-    console.log(req.body.label);
-    console.log(req.body.label.labelId);
     Label.findById(req.body.label.labelId, function (err, label) {
         if (err) {
             return res.status(500).json({
@@ -32,8 +28,6 @@ router.post('/', function (req, res, next) {
                 error: err
             });
         }
-        console.log("NOTERROR");
-        console.log(label);
         var release = new Release({
             title: req.body.title,
             catalog: req.body.catalog,
@@ -57,8 +51,6 @@ router.post('/', function (req, res, next) {
 });
 
 router.patch('/:id', function (req, res, next) {
-    console.log("PATCH");
-    console.log(req.body);
     Release.findById(req.params.id, function (err, release) {
         if (err) {
             return res.status(500).json({
@@ -71,8 +63,8 @@ router.patch('/:id', function (req, res, next) {
                 title: 'No release found',
                 error: { message: 'Release not found' }
             });
-        }
-        if (release.label != req.body.labelId) {
+        }        
+        if (release.label != req.body.label.labelId) {
             Label.findById(release.label, function (err, label) {
                 if (err) {
                     return res.status(500).json({
@@ -90,7 +82,7 @@ router.patch('/:id', function (req, res, next) {
                     }
                 });
             });
-            Label.findById(req.body.labelId, function (err, label) {
+            Label.findById(req.body.label.labelId, function (err, label) {
                 if (err) {
                     return res.status(500).json({
                         title: 'An error occurred',
@@ -108,7 +100,7 @@ router.patch('/:id', function (req, res, next) {
                 });
             });
 
-            release.label = req.body.labelId;
+            release.label = req.body.label.labelId;
         } 
 
         release.title = req.body.title;
